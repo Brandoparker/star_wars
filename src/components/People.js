@@ -10,20 +10,20 @@ class People extends React.Component {
   state = { people: [], };
 
   componentDidMount() {
-    axios.get("/api/people")
+    axios.get("https://swapi.co/api/people")
       .then( res => {
         this.setState({ people: res.data, });
       })
   }
 
-  renderCohorts = () => {
+  renderPeople = () => {
     const { people } = this.state
-    if (topics.length <= 0)
-      return <h1>No Topic</h1>
-    return topics.map( topic => (
+    if (people.length <= 0)
+      return <h1>No People</h1>
+    return people.map( person => (
       
         
-        <Header >{ topic.title }</Header>
+        <Header >{ person.title }</Header>
       ))
   }
       
@@ -31,8 +31,8 @@ class People extends React.Component {
         return (
           <div>
             
-            <Header as='h1' textAlign='center'>{ this.renderTopics }</Header>
-            <Button as={Link} to='/topicsform'>Edit</Button>
+            <Header as='h1' textAlign='center'>{ this.renderPeople }</Header>
+            <Button as={Link} to='/people'>Edit</Button>
           
             
           </div>
@@ -40,4 +40,4 @@ class People extends React.Component {
       }
     }
     
-export default CohortView;
+export default People;
