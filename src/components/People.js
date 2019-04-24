@@ -1,43 +1,49 @@
-import React from 'react';
-import { Header } from 'semantic-ui-react';
-import axios from 'axios'
-import {Link, } from 'react-router-dom'
-
+import React from "react";
+import axios from "axios";
+import {render} from "react-dom"
 
 class People extends React.Component {
+  constructor(props) {
+    super(props);
 
-
-  state = { people: [], };
-
-  componentDidMount() {
-    axios.get("https://swapi.co/api/people")
-      .then( res => {
-        this.setState({ people: res.data, });
-      })
+    this.state = { data: {}, name: "", homeplanet: "", species: "" };
   }
 
-  renderPeople = () => {
-    const { people } = this.state
-    if (people.length <= 0)
-      return <h1>No People</h1>
-    return people.map( person => (
-      
+
+
+    fetchStarwars = () => {
+        axios
+          .get("https://swapi.co/api/people/3/")
+          .then(response => {
+            let results = response.data
+            let x = results.homeworld;
+
+            this.setState({ data: results, name: results.name, isLoading: false });
+            return axios.get(x)
+          })
+
+              .then(results => {
+                this.setState({ homeplanet: results.data.name });           });
         
-        <Header >{ person.title }</Header>
-      ))
-  }
-      
+      }
+
+      componentDidMount() {
+        this.fetchStarwars();
+      }
+
       render() {
+        console.log(this.state);
         return (
-          <div>
-            
-            <Header as='h1' textAlign='center'>{ this.renderPeople }</Header>
-            <Button as={Link} to='/people'>Edit</Button>
-          
-            
+          <div className="App">
+            <span>{this.state.name}</span>
+            <div>{this.state.homeplanet}</div>
           </div>
-        )
+        );
       }
     }
-    
+
+
+render(<People />, document.getElementById('root'));
+
+
 export default People;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route, } from 'react-router-dom';
 import { Container, } from "semantic-ui-react"; 
-import './App.css';
 import People from './components/People'
 
 const App = () => (
